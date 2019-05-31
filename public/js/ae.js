@@ -52,31 +52,31 @@ const contractSource = `
       let nIndex = getBudgetsLength() + 1
       put(state{ budgets[nIndex] = budgetExpense, budgetsLength = nIndex })
     /* Chain.spend(budget.creatorAddress, Call.value)
-       let updatedVoteCount = meme.voteCount + Call.value
-       let updatedBudgets = state.memes{ [index].voteCount = updatedVoteCount }
+       let updatedVoteCount = budget.voteCount + Call.value
+       let updatedBudgets = state.budgets{ [index].voteCount = updatedVoteCount }
        put(state{ budgets = updatedBudgets }) */
 `;
 
-//Address of the meme voting smart contract on the testnet of the aeternity blockchain
+//Address of the budget tracking smart contract on the testnet of the aeternity blockchain
 const contractAddress = 'ct_wu1xGX6YDg5ViyAeXuYYMrxKE2L3sG9tQ8JdyMt3RJ2z7MP6J';
 //Create variable for client so it can be used in different functions
 var client = null;
-//Create a new global array for the memes
-var memeArray = [];
-//Create a new variable to store the length of the meme globally
-var memesLength = 0;
+//Create a new global array for the budgets
+var budgetArray = [];
+//Create a new variable to store the length of the budget globally
+var budgetsLength = 0;
 
-function renderMemes() {
-  //Order the memes array so that the meme with the most votes is on top
-  memeArray = memeArray.sort(function(a,b){return b.votes-a.votes})
+function renderBudgets() {
+  //Order the budgets array so that the budget with the most votes is on top
+  budgetArray = budgetArray.sort(function(a,b){return b.votes-a.votes})
   //Get the template we created in a block scoped variable
   let template = $('#template').html();
   //Use mustache parse function to speeds up on future uses
   Mustache.parse(template);
   //Create variable with result of render func form template and data
-  let rendered = Mustache.render(template, {memeArray});
+  let rendered = Mustache.render(template, {budgetArray});
   //Use jquery to add the result of the rendering to our html
-  $('#memeBody').html(rendered);
+  $('#budgetBody').html(rendered);
 }
 
 //Create a asynchronous read call for our smart contract
@@ -108,70 +108,70 @@ window.addEventListener('load', async () => {
   //Initialize the Aepp object through aepp-sdk.browser.js, the base app needs to be running.
   client = await Ae.Aepp();
 
-  //First make a call to get to know how may memes have been created and need to be displayed
-  //Assign the value of meme length to the global variable
-  memesLength = await callStatic('getMemesLength', []);
+  //First make a call to get to know how may budgets have been created and need to be displayed
+  //Assign the value of budget length to the global variable
+  budgetsLength = await callStatic('getBudgetsLength', []);
 
-  //Loop over every meme to get all their relevant information
-  for (let i = 1; i <= memesLength; i++) {
+  //Loop over every budget to get all their relevant information
+  for (let i = 1; i <= budgetsLength; i++) {
 
-    //Make the call to the blockchain to get all relevant information on the meme
-    const meme = await callStatic('getMeme', [i]);
+    //Make the call to the blockchain to get all relevant information on the budget
+    const budget = await callStatic('getBudget', [i]);
 
-    //Create meme object with  info from the call and push into the array with all memes
-    memeArray.push({
-      creatorName: meme.name,
-      memeUrl: meme.url,
+    //Create budget object with  info from the call and push into the array with all budgets
+    budgetArray.push({
+      creatorName: budget.name,
+      budgetUrl: budget.url,
       index: i,
-      votes: meme.voteCount,
+      votes: budget.voteCount,
     })
   }
 
-  //Display updated memes
-  renderMemes();
+  //Display updated budgets
+  renderBudgets();
 
   //Hide loader animation
   $("#loader").hide();
 });
 
-//If someone clicks to vote on a meme, get the input and execute the voteCall
-jQuery("#memeBody").on("click", ".voteBtn", async function(event){
+//If someone clicks to vote on a budget, get the input and execute the voteCall
+jQuery("#budgetBody").on("click", ".voteBtn", async function(event){
   $("#loader").show();
   //Create two new let block scoped variables, value for the vote input and
-  //index to get the index of the meme on which the user wants to vote
+  //index to get the index of the budget on which the user wants to vote
   let value = $(this).siblings('input').val(),
       index = event.target.id;
 
-  //Promise to execute execute call for the vote meme function with let values
-  await contractCall('voteMeme', [index], value);
+  //Promise to execute execute call for the vote budget function with let values
+  await contractCall('voteBudget', [index], value);
 
   //Hide the loading animation after async calls return a value
-  const foundIndex = memeArray.findIndex(meme => meme.index == event.target.id);
+  const foundIndex = budgetArray.findIndex(budget => budget.index == event.target.id);
   //console.log(foundIndex);
-  memeArray[foundIndex].votes += parseInt(value, 10);
+  budgetArray[foundIndex].votes += parseInt(value, 10);
 
-  renderMemes();
+  renderBudgets();
   $("#loader").hide();
 });
 
-//If someone clicks to register a meme, get the input and execute the registerCall
+//If someone clicks to register a budget, get the input and execute the registerCall
 $('#registerBtn').click(async function(){
   $("#loader").show();
   //Create two new let variables which get the values from the input fields
   const name = ($('#regName').val()),
         url = ($('#regUrl').val());
 
-  //Make the contract call to register the meme with the newly passed values
-  await contractCall('registerMeme', [url, name], 0);
+  //Make the contract call to register the budget with the newly passed values
+  await contractCall('registerBudget', [url, name], 0);
 
-  //Add the new created memeobject to our memearray
-  memeArray.push({
+  //Add the new created budgetobject to our budgetarray
+  budgetArray.push({
     creatorName: name,
-    memeUrl: url,
-    index: memeArray.length+1,
+    budgetUrl: url,
+    index: budgetArray.length+1,
     votes: 0,
   })
 
-  renderMemes();
+  renderBudgets();
   $("#loader").hide();
 });
