@@ -1,0 +1,58 @@
+html
+  include head
+  include functions
+  body
+    script.
+        var budgets = !{JSON.stringify(budgets)}
+        $(document).ready(function () {
+            const bTree = Treeviz.create({
+                htmlID: "tree",
+                nodeField: "id",
+                flatData: true,
+                relationnalField: "father",
+                zoomBehavior: true,
+                nodeWidth: 160,
+                nodeHeight: 100,
+                nodeColor: (nodeData) => nodeData.color,
+                depthDistance: 300,
+                horizontalLayout: true,
+                nodeTemplate: (nodeData) => "<div class='center valign-wrapper' style='padding-top: 10%;'><div><b>" + nodeData.data + "</b></div></div>",
+                linkWidth: (nodeData)=> 5,
+                linkColor: (nodeData) => "#B0BEC5" ,
+                onNodeClick: (nodeData) => console.log(nodeData)
+            })
+
+            const data = budgetsToTree(budgets)
+            bTree.refresh(data)
+        })
+    .container
+      .row
+        h4 Blockchain Diagram
+        
+        each budget in budgets
+            if !budget.parentId && budget.type == 'allocation'
+                - var balance = calculateBalance(budget, budgets)
+                p
+                    #balance-info #{budget.description} Allocation = 
+                        b: u NGN #{numberWithCommas(budget.amount)}
+                    #balance-info #{budget.description} Balance = 
+                        b: u NGN #{numberWithCommas(balance)}
+
+        p
+            .row 
+                .s6.col
+                    a.btn.waves-effect.waves-dark.blue(href='/allocate-budget') Record A Budget Allocation
+                        i.material-icons.left arrow_forward
+            
+                .s6.col
+                    a.btn.waves-effect.waves-dark.blue(href='/spend-budget') Record Budget Spending
+                        i.material-icons.left arrow_forward
+
+        .s12
+            .card
+              .card-action
+                .row
+                    .s12#tree(style='height: 600px;')
+                
+                
+      include ack

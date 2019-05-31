@@ -1,0 +1,7 @@
+{"_id":"1","from":"University of Jos Management","to":"ICT Directorate","amount":5000000,"description":"Annual Budget","type":"allocation","timestamp":1000}
+{"_id":"2","reason":"Purchasing PCs","amount":500000,"description":"","type":"spending","parentId":"1","parentTo":"ICT Directorate","parentDescription":"Annual Budget","timestamp":10000}
+{"_id":"3","reason":"Upgrading Network Infrastructure","amount":1000000,"description":"","type":"spending","parentId":"1","parentTo":"ICT Directorate","parentDescription":"Annual Budget","timestamp":20000}
+{"_id":"4","reason":"Buying Routers","amount":500000,"description":"","parentReason":"Upgrading Network Infrastructure","type":"spending","parentId":"3","parentTo":"ICT Directorate","parentDescription":"Annual Budget","timestamp":400000}
+{"_id":"5","reason":"Improved ISP Annual Fees","amount":500000,"description":"","parentReason":"Upgrading Network Infrastructure","type":"spending","parentId":"3","parentTo":"ICT Directorate","parentDescription":"Annual Budget","timestamp":200000}
+{"reason":"Lecturer Welfare","amount":500000,"description":"Lecturer Welfare","type":"spending","parentId":"1","timestamp":1559291242996,"parentDescription":"Annual Budget","parentTo":"ICT Directorate","parentReason":"","_id":"6VzGT0rfPG3eaIfg"}
+{"reason":"Dr Jegede Welfare","amount":30000,"description":"Welfare","type":"spending","parentId":"6VzGT0rfPG3eaIfg","timestamp":1559291292279,"parentDescription":"Lecturer Welfare","parentTo":"ICT Directorate","parentReason":"Lecturer Welfare","_id":"wlxHbSZIwUdCkD85"}

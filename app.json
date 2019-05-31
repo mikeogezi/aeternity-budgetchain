@@ -1,0 +1,7 @@
+{
+    "name": "BudgetChain",
+    "description": "BudgetChain",
+    "repository": "https://github.com/okibeogezi/budgetchain",
+    "keywords": ["BudgetChain"],
+    "image": "heroku/nodejs"
+}

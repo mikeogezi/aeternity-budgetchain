@@ -1,0 +1,13 @@
+- function numberWithCommas(x) {
+-     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+- }
+
+- function calculateBalance (budget, budgets) {
+-     var balance = budget.amount
+-     for (const b of budgets) {
+-         if (b._id != budget._id && b.parentId == budget._id) {
+-             balance -= b.amount
+-         }
+-     }
+-     return balance
+- }

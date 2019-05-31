@@ -1,0 +1,36 @@
+html
+  include head
+  body
+    .container
+      .row
+        h4 Record A Budget Allocation
+        .s12
+            .card
+              .card-action
+                form#form.s12(action='/allocate-budget', method='post')
+                    .row
+                        .input-field.col.s12
+                            input#from(name='from', type='text', required)
+                            label(for='from') Allocated From (e.g. Federal Government)
+
+                    .row
+                        .input-field.col.s12
+                            input#to(name='to', type='text', required)
+                            label(for='to') Allocated To (e.g. Ministry of Works)
+
+                    .row
+                        .input-field.col.s12
+                            input#amount(name='amount', type='number', required)
+                            label(for='amount') Total Amount Allocated In Naira (e.g. 5000000)
+
+                    .row
+                        .input-field.col.s12
+                            textarea#description.materialize-textarea(name='description', required)
+                            label(for='description') Description
+                    
+                    .s12
+                        button#record-allocation.btn-large.waves-effect.waves-dark.blue(type='submit') Record Budget Allocation
+                            i.material-icons.left arrow_forward
+
+                
+      include ack

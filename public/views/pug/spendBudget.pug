@@ -1,0 +1,48 @@
+html
+  include head
+  - var showSpending = !false
+  body
+    .container
+      .row
+        h4 Record Budget Spending
+        .s12
+            .card
+              .card-action
+                form#form.s12(action='/spend-budget', method='post')
+                    .row
+                        .input-field.col.s12
+                            select#budgetId(name='budgetId', required)
+                                option(value disabled selected) Choose Your Option
+                                optgroup(label='Budget Allocation')
+                                each budget in budgets
+                                    - var budgetId = budget.type + '_' + budget._id
+                                    if budget.type == 'allocation'
+                                        option(value=budgetId) #{budget.to} - #{budget.description}
+                                if showSpending
+                                    optgroup(label='Budget Suballocation')
+                                    each budget in budgets
+                                        - var budgetId = budget.type + '_' + budget._id
+                                        if budget.type == 'spending'
+                                            option(value=budgetId) #{budget.reason} - From #{budget.parentTo} #{budget.parentDescription}
+                            label(for='budgetId') Select a Budget
+
+                    .row
+                        .input-field.col.s12
+                            input#reason(name='reason', type='text', required)
+                            label(for='reason') Reason (e.g. Building of Roads)
+
+                    .row
+                        .input-field.col.s12
+                            input#amount(name='amount', type='number', required)
+                            label(for='amount') Total Amount Being Spent In Naira (e.g. 5000000)
+
+                    .row
+                        .input-field.col.s12
+                            textarea#description.materialize-textarea(name='description', required)
+                            label(for='description') Description
+                    
+                    .s12
+                        button#record-spending.btn-large.waves-effect.waves-dark.blue(type='submit') Record Budget Spending
+                            i.material-icons.left arrow_forward
+                
+      include ack
