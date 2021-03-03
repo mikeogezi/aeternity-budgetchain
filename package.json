@@ -15,7 +15,7 @@
     "ms": "0.7.1",
     "nedb": "^1.8.0",
     "nodemon": "^1.18.10",
-    "pug": "2.0.0-beta6",
+    "pug": "3.0.1",
     "request": "^2.88.0",
     "serve-favicon": "2.3.2",
     "underscore": "^1.8.3"
