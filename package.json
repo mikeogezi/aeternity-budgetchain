@@ -8,10 +8,10 @@
     "debug": "NODE_ENV=development nodemon app.js"
   },
   "dependencies": {
-    "body-parser": "1.15.2",
+    "body-parser": "1.20.1",
     "compression": "^1.7.1",
     "cookie-parser": "1.4.3",
-    "express": "4.14.0",
+    "express": "4.18.2",
     "ms": "0.7.1",
     "nedb": "^1.8.0",
     "nodemon": "^1.18.10",
